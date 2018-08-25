@@ -1,5 +1,3 @@
-console.log('Starting notes.js');
-
 const fs = require('fs');
 
 var fetchNotes = () => {
@@ -44,7 +42,7 @@ var addNote = (title, body) => {
 //one below is using function(). These are very similar and with ES6 I will be
 //using => for my anonymous functions.
 var getAll = function() {
-  console.log('Getting all notes');
+  return fetchNotes();
 };
 
 var readNote = (title) => {
@@ -69,7 +67,8 @@ var removeNote = (title) => {
 };
 
 var logNote = (note) => {
-  console.log('--');
+  debugger;
+  console.log('...');
   console.log(`Title: ${note.title}`);
   console.log(`Body: ${note.body}`);
 };
