@@ -2,21 +2,30 @@ console.log('Starting notes.js');
 
 const fs = require('fs');
 
-var addNote = (title, body) => {
-  var notes = [];
-  var note = {
-    title,
-    body
-  };
-
+var fetchNotes = () => {
   try {
     //Read from the data file to see what notes where already written.
     var noteString = fs.readFileSync('notes-data.json');
     //Save the data into json object notes.
-    notes = JSON.parse(noteString);
+    return JSON.parse(noteString);
   } catch (e) {
-
+    return [];
   }
+};
+//Saves out notes array to specified file location
+var  saveNotes = (notes) => {
+  //Take the array of json objects and turn them to a string then write the them
+  // to a specified file in this case notes-data.json
+  fs.writeFileSync('notes-data.json',JSON.stringify(notes));
+};
+
+var addNote = (title, body) => {
+  //Our notes array
+  var notes = fetchNotes();
+  var note = {
+    title,
+    body
+  };
 
   //filter() is an array method that that takes a callback
   var duplicateNotes = notes.filter((note) => note.title === title);
@@ -26,9 +35,8 @@ var addNote = (title, body) => {
     //the push() on an array adds an item to the end of an array. So in this
     //case we add our note.
     notes.push(note);
-    //Take the array of json objects and turn them to a string then write the them
-    // to a specified file in this case notes-data.json
-    fs.writeFileSync('notes-data.json',JSON.stringify(notes));
+    saveNotes(notes);
+    return note;
   }
 };
 //Notice that the syntax for the anonymous function above is using => while the
@@ -37,15 +45,17 @@ var addNote = (title, body) => {
 var getAll = function() {
   console.log('Getting all notes');
 }
-
-
 var readNote = (title) => {
   console.log(`Reading note ${title}`)
 }
 // Notice that the syntax in the console.log for readNote and removeNote are
-//different, however, they do the same thing.
+//different, however, they do the same thing. Returns true if it successfully
+//removed a note and false otherwise.
 var removeNote = (title) => {
-  console.log('Removing note', title)
+  var notes = fetchNotes();
+  var filteredNotes = notes.filter((note) => note.title !== title);
+  saveNotes(filteredNotes);
+  return (notes.length !== filteredNotes.length);
 }
 
 module.exports = {
