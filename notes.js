@@ -12,6 +12,7 @@ var fetchNotes = () => {
     return [];
   }
 };
+
 //Saves out notes array to specified file location
 var  saveNotes = (notes) => {
   //Take the array of json objects and turn them to a string then write the them
@@ -44,12 +45,19 @@ var addNote = (title, body) => {
 //using => for my anonymous functions.
 var getAll = function() {
   console.log('Getting all notes');
-}
+};
+
 var readNote = (title) => {
   var notes = fetchNotes();
-  var matchingNotes = notes.filter((note) => note.title === title);
+  //This filter function is the same one as in addNote, however, the syntax is
+  //a bit different. Since this is an => function and it is just one line we can
+  //simplify it to just one single line as in addNode.
+  var matchingNotes = notes.filter((note) => {
+    return note.title === title;
+  });
   return matchingNotes[0];
-}
+};
+
 // Notice that the syntax in the console.log for readNote and removeNote are
 //different, however, they do the same thing. Returns true if it successfully
 //removed a note and false otherwise.
@@ -58,7 +66,13 @@ var removeNote = (title) => {
   var filteredNotes = notes.filter((note) => note.title !== title);
   saveNotes(filteredNotes);
   return (notes.length !== filteredNotes.length);
-}
+};
+
+var logNote = (note) => {
+  console.log('--');
+  console.log(`Title: ${note.title}`);
+  console.log(`Body: ${note.body}`);
+};
 
 module.exports = {
   addNote: addNote,
@@ -66,5 +80,6 @@ module.exports = {
   //the same thing.
   getAll,
   readNote,
-  removeNote
+  removeNote,
+  logNote
 }

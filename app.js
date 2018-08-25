@@ -15,7 +15,8 @@ if (command === 'add') {
   var note = notes.addNote(argv.title, argv.body);
   if (note)
   {
-    console.log(`Note "${note.title}" created`);
+    console.log('Note created');
+    notes.logNote(note);
   }
   else {
       console.error("Error: Note was not created! The note was either empty or had a duplicate title");
@@ -25,9 +26,7 @@ if (command === 'add') {
 } else if (command === 'read') {
   var note = notes.readNote(argv.title);
   if (note) {
-    console.log('--');
-    console.log(`Title: ${note.title}`);
-    console.log(`Body: ${note.body}`);
+    notes.logNote(note);
   }
   else {
     console.log("Error: Note not found");
