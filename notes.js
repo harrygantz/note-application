@@ -46,7 +46,9 @@ var getAll = function() {
   console.log('Getting all notes');
 }
 var readNote = (title) => {
-  console.log(`Reading note ${title}`)
+  var notes = fetchNotes();
+  var matchingNotes = notes.filter((note) => note.title === title);
+  return matchingNotes[0];
 }
 // Notice that the syntax in the console.log for readNote and removeNote are
 //different, however, they do the same thing. Returns true if it successfully
